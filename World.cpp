@@ -16,13 +16,6 @@ World::World() {
     populateWorld();
 }
 World::~World() {
-    for(int x=0;x<MAXROW;x++) {
-        for (int y = 0; y < MAXCOL; y++) {
-            delete grid[x][y];
-        }
-    }
-    delete[] grid;
-    delete this;
 }
 
 void World::populateWorld(){
@@ -137,8 +130,8 @@ void World::next() {
 }
 
 void World::display() {
-    std::string H = "\033[1;32m█\033[0m";
-    std::string Z = "\033[1;31m█\033[0m";
+    std::string H = "\033[1;32m██\033[0m";
+    std::string Z = "\033[1;31m██\033[0m";
     for(int x=0;x<MAXROW;x++) {
         for (int y = 0; y < MAXCOL; y++) {
             if(this->grid[x][y] != nullptr){
@@ -150,7 +143,7 @@ void World::display() {
                 }
             }
             else{
-                std::cout<<"█";
+                std::cout<<"██";
             }
 
         }

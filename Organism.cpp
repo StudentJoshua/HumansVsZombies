@@ -13,7 +13,6 @@ Organism::Organism(World *world, int xPos, int yPos) {
     this->yPos = yPos;
 }
 Organism::~Organism() {
-    delete this;
 }
 
 void Organism::setPosition(int x, int y) {
