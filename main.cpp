@@ -13,6 +13,7 @@ int main() {
         sleep(1);
         std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
     }
+    world.display();
 
     return 0;
 }

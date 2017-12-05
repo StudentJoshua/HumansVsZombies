@@ -9,9 +9,11 @@ Human::Human(World *world, int xPos, int yPos) {
     this->world = world;
     this->xPos=xPos;
     this->yPos=yPos;
+    recruit=0;
+    hasMoved=true;
+    hasConverted=true;
 }
 Human::~Human() {
-    delete this;
 }
 
 speciesType Human::getSpecies() {
@@ -24,6 +26,7 @@ void Human::move() {
             {(xPos+MOVE_RIGHT), yPos},
             {xPos, (yPos+MOVE_DOWN)}
     };
+
     int tmpX = 0;
     int tmpY = 0;
     bool isMoving = false;

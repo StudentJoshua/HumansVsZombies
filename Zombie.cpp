@@ -13,7 +13,6 @@ Zombie::Zombie(World *world, int xPos, int yPos) {
     this->yPos = yPos;
 }
 Zombie::~Zombie() {
-    delete this;
 }
 speciesType Zombie::getSpecies() {
     return ZOMBIE;
@@ -31,6 +30,7 @@ void Zombie::move() {
             {(xPos+MOVE_LEFT), (yPos+MOVE_DOWN)},
             {(xPos+MOVE_LEFT), yPos}
     };
+
     int tmpX = 0;
     int tmpY = 0;
     bool isEating = false;
@@ -117,7 +117,7 @@ void Zombie::convert() {
             }while(!foundHuman);
             this->world->setOrganism(tmpX, tmpY, new Zombie(world, tmpX, tmpY));
             hunger = 0;
-            conversion = -1;
+            conversion = 0;
         }
     }
     if(hunger >= STARVEZOMBIE){

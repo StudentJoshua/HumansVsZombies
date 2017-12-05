@@ -18,16 +18,19 @@ World::World() {
 World::~World() {
     for(int x=0;x<MAXROW;x++) {
         for (int y = 0; y < MAXCOL; y++) {
-            delete[] grid[x][y];
+            delete grid[x][y];
         }
     }
+    delete[] grid;
     delete this;
 }
 
 void World::populateWorld(){
     int x;
     int y;
-    while(numZombies < INITZOMBIES || numHumans < INITHUMANS){
+    int failsafe =0;
+    srand (time(NULL));
+    while(numZombies < INITZOMBIES || numHumans < INITHUMANS && failsafe < 100){
         x = rand()%20;
         y = rand()%20;
         if(this->grid[x][y] == nullptr) {
@@ -39,6 +42,8 @@ void World::populateWorld(){
                 this->grid[x][y] = new Zombie(this, x, y);
                 numZombies++;
             }
+        }else{
+            failsafe++;
         }
     }
 }
@@ -108,6 +113,9 @@ void World::updateStats() {
                 else{
                     numHumans++;
                 }
+                if(this->grid[x][y]->moves > longestLife){
+                    longestLife = this->grid[x][y]->moves;
+                }
             }
         }
     }
@@ -149,7 +157,10 @@ void World::display() {
         std::cout << "\n";
     }
     std::cout << std::endl;
-    std::cout << " Zombies: " << numZombies << " " << Z << " | Humans: " << numHumans << " " << H <<" | Turn: " << turn << std::endl;
+    std::cout << " Zombies: " << numZombies << " " << Z
+              << " | Humans: " << numHumans << " " << H
+              <<" | Turn: " << turn
+              << " | Longest Life: " << longestLife << std::endl;
 }
 
 Organism* World::getOrganism(int x, int y) {

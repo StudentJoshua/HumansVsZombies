@@ -32,6 +32,7 @@ public:
     void setOrganism(int x, int y, Organism *organism);
 
     int turn = 0;
+    int longestLife = 0;
     int numHumans = 0;
     int numZombies = 0;
     void updateStats();
