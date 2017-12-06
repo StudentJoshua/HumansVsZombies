@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <vector>
 #include "Zombie.h"
 #include "Human.h"
 
@@ -20,7 +21,7 @@ speciesType Zombie::getSpecies() {
 
 //movement
 void Zombie::move() {
-    int possibleMoves[8][2] = {
+    std::vector<std::vector<int>> possibleMoves = {
             {(xPos+MOVE_LEFT), (yPos+MOVE_UP)}, //UP DOWN LEFT RIGHT DIAGONALS COORDINATES
             {xPos, (yPos+MOVE_UP)},
             {(xPos+MOVE_RIGHT), (yPos+MOVE_UP)},
@@ -36,23 +37,46 @@ void Zombie::move() {
     bool isEating = false;
     bool isMoving = false;
     Organism *organism;
+    std::vector<std::vector<int>> goodMoves;
+    goodMoves.clear();
 
-    //get move
-    int i = rand()%8;
+    for(int i=0;i<8;i++){
         tmpX = possibleMoves[i][0];
         tmpY = possibleMoves[i][1];
-        if(tmpX < MAXROW && tmpX > -1 && tmpY < MAXCOL && tmpY > -1) { //check if out of bounds first
+        if(tmpX < MAXROW && tmpX > -1 && tmpY < MAXCOL && tmpY > -1){
             organism = this->world->getOrganism(tmpX, tmpY);
-            if (organism != nullptr) {
-                if (organism->getSpecies() == HUMAN) {
+            if(organism != nullptr){
+                if(organism->getSpecies() == HUMAN){
                     isEating = true;
-                    isMoving = true;
                 }
             }
-            else{
-                isMoving = true;
+        }
+    }
+    for(int i=0;i<8;i++){
+        tmpX = possibleMoves[i][0];
+        tmpY = possibleMoves[i][1];
+        if(tmpX < MAXROW && tmpX > -1 && tmpY < MAXCOL && tmpY > -1){
+            organism = this->world->getOrganism(tmpX, tmpY);
+            if(organism != nullptr){
+                if(organism->getSpecies() == HUMAN){
+                    goodMoves.push_back(possibleMoves[i]);
+                }
+            }
+            else if(!isEating){
+                goodMoves.push_back(possibleMoves[i]);
             }
         }
+    }
+
+    tmpX = xPos;
+    tmpY = yPos;
+    //get move
+    if(goodMoves.size() > 0){
+        isMoving = true;
+        int i = rand()%(int)goodMoves.size();
+        tmpX = goodMoves[i][0];
+        tmpY = goodMoves[i][1];
+    }
     /////
 
     hasMoved = true;

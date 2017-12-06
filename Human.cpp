@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <vector>
 #include "Human.h"
 Human::Human()=default;
 Human::Human(World *world, int xPos, int yPos) {
@@ -20,29 +21,35 @@ speciesType Human::getSpecies() {
     return HUMAN;
 }
 void Human::move() {
-    int possibleMoves[4][2] = {
+    std::vector<std::vector<int>> possibleMoves = {
             {(xPos+MOVE_LEFT), yPos},
             {xPos, (yPos+MOVE_UP)},
             {(xPos+MOVE_RIGHT), yPos},
             {xPos, (yPos+MOVE_DOWN)}
     };
-
+    std::vector<std::vector<int>> goodMoves;
+    goodMoves.clear();
     int tmpX = 0;
     int tmpY = 0;
     bool isMoving = false;
     Organism *organism;
-    int i = rand()%4;
+    for(int i=0;i<4;i++){
         tmpX = possibleMoves[i][0];
         tmpY = possibleMoves[i][1];
-        if(tmpX < MAXROW && tmpX > -1 && tmpY < MAXCOL && tmpY > -1){
+        if(tmpX < MAXROW && tmpX > -1 && tmpY < MAXCOL && tmpY > -1) {
             organism = this->world->getOrganism(tmpX, tmpY);
-            if(organism == nullptr){
+            if (organism == nullptr) {
                 isMoving = true;
+                goodMoves.push_back(possibleMoves[i]);
             }
         }
+    }
 
     hasMoved = true;
     if(isMoving){
+        int i = rand()%(int)goodMoves.size();
+        tmpX = goodMoves[i][0];
+        tmpY = goodMoves[i][1];
         int oldX = xPos;
         int oldY = yPos;
         xPos = tmpX;

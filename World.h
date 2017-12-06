@@ -12,7 +12,7 @@ class Organism;
 const int MAXROW = 20;
 const int MAXCOL = 20;
 const int INITHUMANS = 100;//Initial population of humans
-const int INITZOMBIES = 5;//Initial population of zombies
+const int INITZOMBIES = 10;//Initial population of zombies
 const int SPAWNHUMANS = 3;//A step in time when humans spawn
 const int SPAWNZOMBIES = 8;//A step in time when zombies spawn
 const int STARVEZOMBIE = 3;//A step in time when zombies starve

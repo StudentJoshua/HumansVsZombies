@@ -2,15 +2,18 @@
 #include <zconf.h>
 #include "World.h"
 
+const int MAXTURNS = 1000;
+const int FRAMERATE = 100000;
+
 int main() {
 
     World world;
     std::string temp;
 
-    while(world.numHumans > 0 && world.numZombies > 0 && world.turn < 1000){
+    while(world.numHumans > 0 && world.numZombies > 0 && world.turn < MAXTURNS){
         world.next();
         world.display();
-        sleep(1);
+        usleep(FRAMERATE);
         std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" << std::endl;
     }
     world.display();
